@@ -73,10 +73,10 @@ export default function Login() {
                     </button>
                     <p className="mt-4 text-sm text-center">
                         Non hai un account?
-                        <a href="/register" className="ml-1 text-blue-600 hover:underline">Registrati</a>
+                        <span onClick={() => navigate("/register")} className="ml-1 text-blue-600 hover:underline cursor-pointer">Registrati</span>
                     </p>
                     <p className="mt-2 text-sm text-center">
-                        <a href="/forgot-password" className="text-blue-600 hover:underline">Password dimenticata?</a>
+                        <span onClick={() => navigate("/forgot-password")} className="text-blue-600 hover:underline cursor-pointer">Password dimenticata?</span>
                     </p>
                 </form>
             </div>

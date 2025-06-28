@@ -14,6 +14,10 @@ import Register from './components/Account/Register.tsx'
 import Login from './components/Account/Login.tsx'
 import VerifyEmail from './components/Account/verifyEmail.tsx'
 
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+import AdminPage from './pages/AdminPage.tsx'
+import { AdminRoute } from './components/ProtectedRoute.tsx'
+
 const Routes = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     useEffect(() => {
@@ -25,28 +29,30 @@ const Routes = () => {
     }, []);
 
     return (
-        <BrowserRouter>
-            <Layout categories={categories}>
-                <Router>
-                    <Route path="/" element={<App />} />
-                    <Route path="/about" element={<div>About Page</div>} />
-                    <Route path="/category/:id" element={<CategoryPage categories={categories}/>} />
-                    <Route path="/recipe/:id" element={<RecipePage/>} />
-                    <Route path='/register' element={<Register />}/>
-                    <Route path='/login' element={<Login />}/>
-                    <Route path="/verify" element={<VerifyEmail />} />
-                    <Route path="*" element={<div>Pagina non trovata.</div>} />
-                </Router>
-            </Layout>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Layout categories={categories}>
+                    <Router>
+                        <Route path="/" element={<App />} />
+                        <Route path="/category/:id" element={<CategoryPage categories={categories}/>} />
+                        <Route path="/recipe/:id" element={<RecipePage/>} />
+                        <Route path='/register' element={<Register />}/>
+                        <Route path='/login' element={<Login />}/>
+                        <Route path="/verify" element={<VerifyEmail />} />
+                        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+                        <Route path="*" element={<div>Pagina non trovata.</div>} />
+                    </Router>
+                </Layout>
+            </BrowserRouter>
+        </AuthProvider>
     )
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <HeroUIProvider>
-        <ToastProvider/>
-      <Routes />
-    </HeroUIProvider>
-  </StrictMode>,
+    <StrictMode>
+        <HeroUIProvider>
+            <ToastProvider/>
+        <Routes />
+        </HeroUIProvider>
+    </StrictMode>,
 )

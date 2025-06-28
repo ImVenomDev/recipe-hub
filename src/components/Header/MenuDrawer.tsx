@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Button, Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
-import { ChevronDown, Clock, Cookie, ForkKnife, Gem, Home, PlusCircle, Star } from "lucide-react";
+import { ChevronDown, Clock, Cookie, ForkKnife, Gem, Home, PlusCircle, Shield, Star } from "lucide-react";
 import type { Category } from "../../types";
 import ModalCreate from "../Recipes/RecipeCreate";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 type DrawerProps = {
     isOpen: boolean;
@@ -11,6 +13,8 @@ type DrawerProps = {
 };
 
 export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerProps) {
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -69,10 +73,20 @@ export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerP
 
                                 <p className="uppercase text-md mt-5 text-gray-500">Servizi</p>
 
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer" onClick={toggleModal}>
+                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer" onClick={() => user ? toggleModal() : navigate('/login')}>
                                     <PlusCircle />
                                     Aggiungi nuova ricetta
                                 </p>
+                                {user?.admin && (
+                                    <>
+                                        <p className="uppercase text-md mt-5 text-gray-500">Amministrazione</p>
+
+                                        <p className="flex items-center gap-2 text-purple-900 cursor-pointer" onClick={() => navigate('/admin')}>
+                                            <Shield />
+                                            Pannello di controllo
+                                        </p>
+                                    </>
+                                )}
                             </DrawerBody>
                             <DrawerFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>

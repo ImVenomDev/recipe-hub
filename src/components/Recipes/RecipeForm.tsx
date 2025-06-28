@@ -21,6 +21,7 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
     risingTime: "",
     sleepTime: "",
     totalTime: "",
+    conservation: "",
     notes: "",
     imageUrl: "",
     author: ""
@@ -62,6 +63,7 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
       risingTime: "",
       sleepTime: "",
       totalTime: "",
+      conservation: "",
       notes: "",
       imageUrl: "",
       author: ""
@@ -155,6 +157,14 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input label="Tempo di lievitazione (opzionale)" value={form.risingTime} onChange={(e: any) => updateForm("risingTime", e.target.value)} />
               <Input label="Tempo di riposo (opzionale)" value={form.sleepTime} onChange={(e: any) => updateForm("sleepTime", e.target.value)} />
+            </div>
+          </div>
+
+          {/* CONSERVAZIONE */}
+          <div className="space-y-4">
+            <div className="bg-purple-50 rounded-xl p-4">
+              <h3 className="font-semibold text-gray-800 flex items-center gap-2 mb-3">⌚Conservazione</h3>
+              <textarea className="w-full border rounded-lg p-3 min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none" placeholder="Aggiungi eventuali note, consigli o varianti..." value={form.notes} onChange={(e) => updateForm("conservation", e.target.value)} />
             </div>
           </div>
 

@@ -1,8 +1,11 @@
-import { Input } from "@heroui/react";
+import { Input, Button, Spinner } from "@heroui/react";
 import { useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
-import { db, auth } from "../../../firebase.config";
-import { doc, setDoc, serverTimestamp, getDocs, collection } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification
+} from "firebase/auth";
+import { auth } from "../../../firebase.config";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -10,122 +13,105 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError(null);
+    e.preventDefault();
+    if (loading) return;
 
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    setError(null);
+    setLoading(true);
 
-    // Aggiorna nome nel profilo
-    await updateProfile(user, { displayName: username });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    // Calcola uid numerico
-    const usersSnapshot = await getDocs(collection(db, "users"));
-    const numericUid = usersSnapshot.size + 1;
+      await updateProfile(user, { displayName: username });
+      await sendEmailVerification(user);
 
-    // Scrittura nel Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      uid: numericUid,
-      username,
-      email: user.email,
-      created_at: serverTimestamp(),
-      recipes: [],
-      admin: false,
-    });
 
-    // Invia email di verifica
-    await sendEmailVerification(user);
-
-    // Redirect a pagina di avviso
-    navigate("/verify");
-
-  } catch (err: any) {
-    if (err.code === "auth/email-already-in-use") {
-      setError("Questa email è già registrata.");
-    } else {
-      setError("Errore durante la registrazione.");
+      // Redirect all'avviso con messaggio
+      navigate("/verify", { state: { emailSent: true } });
+    } catch (err: any) {
       console.error(err);
+      if (err.code === "auth/email-already-in-use") {
+        setError("Questa email è già registrata.");
+      } else if (err.code === "auth/weak-password") {
+        setError("La password è troppo debole.");
+      } else {
+        setError("Errore durante la registrazione.");
+      }
+    } finally {
+      setLoading(false);
     }
-  }
-};
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Registrazione</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <Input
-              type="text"
-              id="username"
-              label="Nome e Cognome"
-              isRequired
-              variant="bordered"
-              isClearable
-              minLength={6}
-              autoComplete="name"
-              autoFocus
-              autoCorrect="off"
-              spellCheck="false"
-              onChange={(e) => setUsername(e.target.value)}
-              onInput={(e) => e.currentTarget.setCustomValidity("")}
-              onInvalid={(e) => e.currentTarget.setCustomValidity("Inserisci il tuo nome e cognome.")}
-              pattern="^[a-zA-Z\s]{10,}$"
-              title="Il nome e cognome devono contenere almeno 10 caratteri e solo lettere e spazi."
-              className="w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Inserisci il tuo nome e cognome"
-            />
-          </div>
-          <div className="mb-4">
-            <Input
-              type="email"
-              id="email"
-              label="Email"
-              isRequired
-              variant="bordered"
-              isClearable
-              autoComplete="email"
-              autoCorrect="off"
-              spellCheck="true"
-              onChange={(e) => setEmail(e.target.value)}
-              onInput={(e) => e.currentTarget.setCustomValidity("")}
-              onInvalid={(e) => e.currentTarget.setCustomValidity("Inserisci un'email valida.")}
-              className="w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Inserisci la tua email"
-            />
-          </div>
-          <div className="mb-4">
-            <Input
-              type="password"
-              id="password"
-              isRequired
-              label="Password"
-              variant="bordered"
-              isClearable
-              minLength={6}
-              maxLength={20}
-              autoComplete="new-password"
-              autoCorrect="off"
-              spellCheck="false"
-              onChange={(e) => setPassword(e.target.value)}
-              onInput={(e) => e.currentTarget.setCustomValidity("")}
-              className="w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Inserisci la tua password"
-            />
-          </div>
-          {error && <p className="text-sm text-red-500 text-center mb-2">{error}</p>}
-          <button
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Crea un account</h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="text"
+            label="Nome e Cognome"
+            isRequired
+            variant="bordered"
+            isClearable
+            minLength={6}
+            autoComplete="name"
+            pattern="^[a-zA-Z\s]{10,}$"
+            title="Inserisci almeno 10 caratteri. Solo lettere e spazi ammessi."
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Mario Rossi"
+          />
+
+          <Input
+            type="email"
+            label="Email"
+            isRequired
+            variant="bordered"
+            isClearable
+            autoComplete="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="esempio@email.com"
+          />
+
+          <Input
+            type="password"
+            label="Password"
+            isRequired
+            variant="bordered"
+            isClearable
+            minLength={6}
+            maxLength={20}
+            autoComplete="new-password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="********"
+          />
+
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+
+          <Button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+            color="primary"
+            fullWidth
+            className="font-semibold"
+            isDisabled={loading}
           >
-            Registrati
-          </button>
+            {loading ? <Spinner size="sm" color="white" /> : "Registrati"}
+          </Button>
+
           <p className="mt-4 text-sm text-center">
-            Hai già un account? <a href="/login" className="text-blue-600 hover:underline">Accedi</a>
+            Hai già un account?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              className="text-blue-600 hover:underline cursor-pointer"
+            >
+              Accedi
+            </span>
           </p>
         </form>
       </div>
