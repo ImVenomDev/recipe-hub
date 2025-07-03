@@ -1,17 +1,18 @@
 
-const Input = ({ label, value, onChange, required, type = "text", placeholder, className = "" }:any) => (
+const Input = ({ label, value, onChange, required, disabled, type = "text", placeholder, className = "" }:any) => (
     <div className={`flex flex-col gap-2 ${className}`}>
-        <label className="text-sm font-semibold text-gray-700">{label}</label>
-        <input type={type} value={value} onChange={onChange} required={required} placeholder={placeholder} className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all text-gray-800"/>
+        <label className="text-sm font-semibold text-gray-700">{label}{required ? <span className="text-red-500"> *</span> : ""}</label>
+        <input type={type} value={value} onChange={onChange} required={required} disabled={disabled} placeholder={placeholder} className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all text-gray-800"/>
     </div>
 );
 
-const Select = ({ label, value, onChange, children, className = "" }:any) => (
+const Select = ({ label, value, required, onChange, children, className = "" }:any) => (
     <div className={`flex flex-col gap-2 ${className}`}>
-        <label className="text-sm font-semibold text-gray-700">{label}</label>
+        <label className="text-sm font-semibold text-gray-700">{label}{required ? <span className="text-red-500"> *</span> : ""}</label>
         <select
             value={value}
             onChange={onChange}
+            required={required}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white transition-all text-gray-800 cursor-pointer"
         >
             {children}

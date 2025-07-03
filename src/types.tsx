@@ -8,6 +8,7 @@ type Category = {
 };
 
 type Recipe = {
+  hashtags: any;
   preparationTime: ReactNode;
   total_ingredients: ReactNode;
   createdAt: string | number | Date;

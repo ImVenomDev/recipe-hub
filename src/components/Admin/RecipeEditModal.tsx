@@ -79,8 +79,8 @@ export default function RecipeEditModal({ isOpen, onClose, recipe, onSave }: Pro
               />
 
               <div className="flex justify-end gap-2 pt-2">
-                <Button variant="light" onClick={onClose}>Annulla</Button>
-                <Button className="bg-green-600 text-white" onClick={handleSave}>Salva</Button>
+                <Button variant="light" onPress={onClose}>Annulla</Button>
+                <Button className="bg-green-600 text-white" onPress={handleSave}>Salva</Button>
               </div>
             </DialogPanel>
           </div>

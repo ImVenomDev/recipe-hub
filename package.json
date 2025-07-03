@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@genkit-ai/googleai": "^1.14.0",
+    "@google/genai": "^1.8.0",
     "@headlessui/react": "^2.2.4",
     "@heroui/react": "^2.7.8",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.10.0",
     "firebase": "^11.8.1",
     "framer-motion": "^12.12.2",
+    "genkit": "^1.14.0",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",

@@ -8,7 +8,7 @@ import RecipeImage from "../components/Recipes/PageComponents/RecipeImage";
 import DifficultyDots from "../components/Recipes/PageComponents/DifficultyDots";
 import RecipeSection from "../components/Recipes/PageComponents/RecipeSection";
 import NutritionCard from "../components/Recipes/PageComponents/NutritionCard";
-import { Clock, ChefHat, BookOpenText, StickyNote, Sparkles, Flame } from "lucide-react";
+import { Clock, ChefHat, BookOpenText, StickyNote, Sparkles, Flame, Timer } from "lucide-react";
 
 export default function RecipePage() {
   const { id } = useParams();
@@ -89,6 +89,12 @@ export default function RecipePage() {
           })}
         </ol>
       </RecipeSection>
+
+    {recipe.conservation && (
+        <RecipeSection title="Conservazione" icon={Timer    }>
+            <p className="bg-blue-50 p-4 rounded-xl text-sm border border-blue-200 text-gray-800">{recipe.conservation}</p>
+        </RecipeSection>
+    )}
 
       {recipe.notes && (
         <RecipeSection title="Note" icon={StickyNote}>

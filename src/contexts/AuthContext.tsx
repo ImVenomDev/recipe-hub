@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email || "",
-              displayName: firebaseUser.displayName || "",
+              displayName: userData.username || firebaseUser.displayName || "",
               admin: userData.admin,
               recipes: userData.recipes || []
             });

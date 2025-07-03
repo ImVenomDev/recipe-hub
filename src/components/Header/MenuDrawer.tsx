@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Button, Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
+import { Button, Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner } from "@heroui/react";
 import { ChevronDown, Clock, Cookie, ForkKnife, Gem, Home, PlusCircle, Shield, Star } from "lucide-react";
 import type { Category } from "../../types";
 import ModalCreate from "../Recipes/RecipeCreate";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { auth } from '../../../firebase.config';
 
 type DrawerProps = {
     isOpen: boolean;
@@ -13,7 +14,7 @@ type DrawerProps = {
 };
 
 export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerProps) {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -87,6 +88,28 @@ export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerP
                                         </p>
                                     </>
                                 )}
+                                <div className="mt-5 w-full">
+                                    {loading ? (
+                                        <Spinner size="sm" />
+                                    ) : user ? (
+                                        <>
+                                            {/* Replace User icon with Avatar for user profile */}
+                                            <Button
+                                                className="bg-[#9340ff] text-white font-semibold px-4 py-1 text-sm w-full"
+                                                onPress={() => auth.signOut()}
+                                            >
+                                                Logout
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <Button
+                                            className="bg-[#9340ff] text-white font-semibold px-4 py-1 text-sm w-full"
+                                            onPress={() => navigate('/login')}
+                                        >
+                                            Accedi
+                                        </Button>
+                                    )}
+                                </div>
                             </DrawerBody>
                             <DrawerFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>

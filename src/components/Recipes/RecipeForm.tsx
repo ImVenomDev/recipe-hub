@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Input, Button, Select, SelectItem } from "../styles";
 import type { Ingredient, RecipeFormProps } from "../../types";
 import { Checkbox, CheckboxGroup } from "@heroui/react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const units = ["kg", "gr", "l", "ml", "pz", "cucchiaio", "cucchiaino", "bicchiere", "q.b."];
 const difficulties = [1, 2, 3, 4, 5];
 
 export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"], onSubmit }: RecipeFormProps) {
+    const { user } = useAuth();
+
   const [form, setForm] = useState({
     title: "",
     category: "",
@@ -24,7 +27,7 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
     conservation: "",
     notes: "",
     imageUrl: "",
-    author: ""
+    author: user?.displayName || user?.email || "Anonimo"
   });
 
   const updateForm = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
@@ -78,12 +81,12 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
           <p className="text-gray-600">Condividi la tua ricetta speciale</p>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <Input required label="Autore" value={form.author} onChange={(e: any) => updateForm("author", e.target.value)} />
+          <Input disabled label="Autore" value={form.author} onChange={(e: any) => updateForm("author", e.target.value)} />
           <Input required label="Titolo" value={form.title} onChange={(e: any) => updateForm("title", e.target.value)} className="my-5" />
 
           <div className="flex items-center gap-4">
             <Input required label="Dosi per... persone" value={form.servings} onChange={(e: any) => updateForm("servings", e.target.value)} className="flex-1" />
-            <Select label="Difficoltà" value={form.difficulty} onChange={(e: any) => updateForm("difficulty", e.target.value)} className="flex-1">
+            <Select required label="Difficoltà" value={form.difficulty} onChange={(e: any) => updateForm("difficulty", e.target.value)} className="flex-1">
               {difficulties.map((n) => (
                 <SelectItem key={n} value={n}>{n} / 5</SelectItem>
               ))}
@@ -164,7 +167,7 @@ export default function RecipeForm({ categories = ["Primi", "Secondi", "Dolci"],
           <div className="space-y-4">
             <div className="bg-purple-50 rounded-xl p-4">
               <h3 className="font-semibold text-gray-800 flex items-center gap-2 mb-3">⌚Conservazione</h3>
-              <textarea className="w-full border rounded-lg p-3 min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none" placeholder="Aggiungi eventuali note, consigli o varianti..." value={form.notes} onChange={(e) => updateForm("conservation", e.target.value)} />
+              <textarea className="w-full border rounded-lg p-3 min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none" placeholder="Aggiungi la modalità di conservazione..." value={form.conservation} onChange={(e) => updateForm("conservation", e.target.value)} />
             </div>
           </div>
 

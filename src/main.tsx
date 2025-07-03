@@ -17,6 +17,7 @@ import VerifyEmail from './components/Account/verifyEmail.tsx'
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import AdminPage from './pages/AdminPage.tsx'
 import { AdminRoute } from './components/ProtectedRoute.tsx'
+import SearchPage from './pages/SearchPage.tsx'
 
 const Routes = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -39,6 +40,7 @@ const Routes = () => {
                         <Route path='/register' element={<Register />}/>
                         <Route path='/login' element={<Login />}/>
                         <Route path="/verify" element={<VerifyEmail />} />
+                        <Route path="/search" element={<SearchPage />} />
                         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
                         <Route path="*" element={<div>Pagina non trovata.</div>} />
                     </Router>
@@ -52,7 +54,7 @@ createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <HeroUIProvider>
             <ToastProvider/>
-        <Routes />
+            <Routes />
         </HeroUIProvider>
     </StrictMode>,
 )

@@ -56,16 +56,16 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
-            label="Nome e Cognome"
+            label="Username"
             isRequired
             variant="bordered"
             isClearable
             minLength={6}
             autoComplete="name"
-            pattern="^[a-zA-Z\s]{10,}$"
-            title="Inserisci almeno 10 caratteri. Solo lettere e spazi ammessi."
+            pattern="^{6,}$"
+            title="Inserisci almeno 6 caratteri"
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Mario Rossi"
+            placeholder="Username"
           />
 
           <Input
