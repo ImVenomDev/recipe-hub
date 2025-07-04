@@ -1,25 +1,26 @@
 import type { ReactNode } from "react";
 
 type Category = {
-  id: string;
-  title: string;
-  img: string;
-  show: boolean;
+    id: string;
+    title: string;
+    img: string;
+    show: boolean;
 };
 
 type Recipe = {
-  hashtags: any;
-  preparationTime: ReactNode;
-  total_ingredients: ReactNode;
-  createdAt: string | number | Date;
-  imageUrl: string | undefined;
-  id: string;
-  title: string;
-  author: string;
-  category: string;
-  time: string;
-  ingredients: number;
-  rating: number;
+    hashtags: any;
+    preparationTime: ReactNode;
+    total_ingredients: ReactNode;
+    createdAt: string | number | Date;
+    imageUrl: string | undefined;
+    id: string;
+    title: string;
+    author: string;
+    author_id: string;
+    category: string;
+    time: string;
+    ingredients: number;
+    rating: number;
 };
 
 type Props = {

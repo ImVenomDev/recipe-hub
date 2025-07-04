@@ -18,6 +18,9 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 import AdminPage from './pages/AdminPage.tsx'
 import { AdminRoute } from './components/ProtectedRoute.tsx'
 import SearchPage from './pages/SearchPage.tsx'
+import AccountPage from './pages/AccountPage.tsx'
+import { HelmetProvider } from 'react-helmet-async'
+import UserRecipesPage from './pages/UserRecipesPage.tsx'
 
 const Routes = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -41,6 +44,8 @@ const Routes = () => {
                         <Route path='/login' element={<Login />}/>
                         <Route path="/verify" element={<VerifyEmail />} />
                         <Route path="/search" element={<SearchPage />} />
+                        <Route path="/account" element={<AccountPage/>} />
+                        <Route path="/user-recipes/:id" element={<UserRecipesPage/>} />
                         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
                         <Route path="*" element={<div>Pagina non trovata.</div>} />
                     </Router>
@@ -53,8 +58,10 @@ const Routes = () => {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <HeroUIProvider>
-            <ToastProvider/>
-            <Routes />
+            <HelmetProvider>
+                <ToastProvider/>
+                <Routes />
+            </HelmetProvider>
         </HeroUIProvider>
     </StrictMode>,
 )

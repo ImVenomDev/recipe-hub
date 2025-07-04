@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhjpy3UeevdtXS0A3Cm4FB5UJ1frmN2hc",
@@ -14,6 +15,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app); // Uncomment if you want to use analytics
 const db = getFirestore(app);
 const auth = getAuth(app);
 
@@ -25,4 +27,4 @@ const getData = async <T>(collectionName: string): Promise<T[]> => {
 };
 
 
-export { db, app, auth, getData };
+export { analytics, db, app, auth, getData };
