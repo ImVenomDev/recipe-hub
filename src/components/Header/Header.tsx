@@ -183,11 +183,12 @@ export default function Header({ onMenuClick }: Props) {
                 ) : user ? (
                     <>
                         <User
+                            onClick={() => navigate('/account')}
                             avatarProps={{
                                 src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
                             }}
                             name={user.displayName}
-                            className="hidden sm:flex"
+                            className="hidden sm:flex cursor-pointer hover:opacity-80 transition"
                         />
                         <Button
                             className="bg-[#9340ff] text-white font-semibold px-4 py-1 text-sm"

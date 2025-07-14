@@ -1,3 +1,6 @@
+// vite-env.d.ts
+/// <reference types="vite-plugin-pwa/client" />
+
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {HeroUIProvider} from '@heroui/react'
@@ -22,6 +25,19 @@ import AccountPage from './pages/AccountPage.tsx'
 import { HelmetProvider } from 'react-helmet-async'
 import UserRecipesPage from './pages/UserRecipesPage.tsx'
 
+import { registerSW } from 'virtual:pwa-register';
+
+const updateSW = registerSW({
+    onNeedRefresh() {
+        if (confirm('È disponibile un aggiornamento. Vuoi aggiornare ora?')) {
+            updateSW(true);
+        }
+    },
+    onOfflineReady() {
+        console.log('App pronta per l\'uso offline');
+    }
+});
+
 const Routes = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     useEffect(() => {
@@ -45,7 +61,7 @@ const Routes = () => {
                         <Route path="/verify" element={<VerifyEmail />} />
                         <Route path="/search" element={<SearchPage />} />
                         <Route path="/account" element={<AccountPage/>} />
-                        <Route path="/user-recipes/:id" element={<UserRecipesPage/>} />
+                        <Route path="/user-recipes/:user" element={<UserRecipesPage/>} />
                         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
                         <Route path="*" element={<div>Pagina non trovata.</div>} />
                     </Router>
