@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { auth, db } from "../../firebase.config";
 import { doc, updateDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
-import { Input, Button, Spinner, Card, CardBody, CardHeader, Modal, ModalBody, ModalContent, ModalHeader, ModalFooter, useDisclosure } from "@heroui/react";
+import { Input, Button, Spinner, Card, CardBody, CardHeader, Modal, ModalBody, ModalContent, ModalHeader, ModalFooter, useDisclosure, addToast } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { sendPasswordResetEmail, updateEmail } from "firebase/auth";
 import { logEvent } from "firebase/analytics";
@@ -58,10 +58,10 @@ export default function AccountPage() {
             const userRef = doc(db, "users", user.uid!);
             await updateDoc(userRef, { username });
             logEvent(analytics, "update_username", { uid: user.uid });
-            alert("Username aggiornato con successo!");
+            addToast({description:"Username aggiornato con successo", variant:"bordered", color:"success"});
         } catch (err) {
             console.error(err);
-            alert("Errore durante l'aggiornamento dell'username.");
+            addToast({description:"Errore durante l'aggiornamento dell'username", variant:"bordered", color:"danger"});
         }
     };
 
@@ -72,10 +72,10 @@ export default function AccountPage() {
             const userRef = doc(db, "users", user.uid!);
             await updateDoc(userRef, { email });
             logEvent(analytics, "update_email", { uid: user.uid });
-            alert("Email aggiornata con successo!");
+            addToast({description:"Email aggiornata con successo!", variant:"bordered", color:"success"});
         } catch (err) {
             console.error(err);
-            alert("Errore durante l'aggiornamento dell'email.");
+            addToast({description:"Impossibile aggiornare l'email", variant:"bordered", color:"danger"});
         }
     };
 
@@ -86,10 +86,10 @@ export default function AccountPage() {
             if (user) {
                 logEvent(analytics, "password_reset_requested", { uid: user.uid });
             }
-            alert("Email per il reset della password inviata.");
+            addToast({description:"Email per il reset della password inviata", variant:"bordered", color:"success"});
         } catch (err) {
             console.error(err);
-            alert("Errore durante l'invio dell'email di reset.");
+            addToast({description:"Errore durante l'invio dell'email di reset", variant:"bordered", color:"danger"});
         }
     };
 
@@ -105,7 +105,7 @@ export default function AccountPage() {
             onClose();
         } catch (err) {
             console.error(err);
-            alert("Errore durante l'eliminazione della ricetta.");
+            addToast({description:"Errore durante l'eliminazione della ricetta", variant:"bordered", color:"danger"});
         }
     };
 

@@ -46,6 +46,7 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
+            injectRegister: 'auto',
             includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt'],
             manifest: {
                 name: 'Recipe Hub',

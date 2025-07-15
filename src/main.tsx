@@ -25,6 +25,8 @@ import AccountPage from './pages/AccountPage.tsx'
 import { HelmetProvider } from 'react-helmet-async'
 import UserRecipesPage from './pages/UserRecipesPage.tsx'
 
+import SplashScreen from './components/SplashScreen.tsx'
+
 import { registerSW } from 'virtual:pwa-register';
 
 const updateSW = registerSW({
@@ -71,13 +73,24 @@ const Routes = () => {
     )
 }
 
-createRoot(document.getElementById('root')!).render(
-    <StrictMode>
+const AppContainer = () => {
+    const [showSplash, setShowSplash] = useState(true);
+    
+    if( showSplash ) {
+        return <SplashScreen onFinish={() => setShowSplash(false)} />
+    }
+    return (
         <HeroUIProvider>
             <HelmetProvider>
                 <ToastProvider/>
-                <Routes />
+                    <Routes />
             </HelmetProvider>
         </HeroUIProvider>
+    )
+}
+
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <AppContainer />
     </StrictMode>,
 )

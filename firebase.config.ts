@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhjpy3UeevdtXS0A3Cm4FB5UJ1frmN2hc",
@@ -18,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app); // Uncomment if you want to use analytics
 const db = getFirestore(app);
 const auth = getAuth(app);
+const messaging = getMessaging(app); // Uncomment if you want to use Firebase Cloud Messaging
 
 //const analytics = getAnalytics(app);
 
@@ -27,4 +29,4 @@ const getData = async <T>(collectionName: string): Promise<T[]> => {
 };
 
 
-export { analytics, db, app, auth, getData };
+export { analytics, db, app, auth, messaging, getData };
