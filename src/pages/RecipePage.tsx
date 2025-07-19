@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase.config";
-import { Spinner } from "@heroui/react";
+import { Skeleton } from "@heroui/react";
 import RecipeHeader from "../components/Recipes/PageComponents/RecipeHeader";
 import RecipeImage from "../components/Recipes/PageComponents/RecipeImage";
 import DifficultyDots from "../components/Recipes/PageComponents/DifficultyDots";
@@ -38,7 +38,9 @@ export default function RecipePage() {
     }, [id]);
 
     if (loading) {
-        return <div className="flex justify-center py-10"><Spinner label="Caricamento ricetta..." /></div>;
+        return <div className="flex justify-center items-center h-screen">
+                <Skeleton key={0} className="h-52 w-96 rounded-md" />
+            </div>
     }
 
     if (!recipe) {

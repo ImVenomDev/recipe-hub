@@ -28,10 +28,10 @@ export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerP
                     {(onClose) => (
                         <>
                             <DrawerHeader className="flex flex-col gap-1">
-                                <a href="/"><img src='/assets/logo-black.svg'/></a>
+                                <img onClick={() => navigate('/')} src='/assets/logo-black.svg'/>
                             </DrawerHeader>
                             <DrawerBody>
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer">
+                                <p onClick={() => navigate('/')} className="flex items-center gap-2 text-purple-900 cursor-pointer">
                                     <Home />Home
                                 </p>
                                 <Dropdown onOpenChange={setDropdownOpen}>
@@ -43,7 +43,7 @@ export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerP
                                     </DropdownTrigger>
                                     <DropdownMenu aria-label="Categorie">
                                         {categories.map((category) => (
-                                            <DropdownItem key={category.id} onPress={onClose}>
+                                            <DropdownItem onClick={() => navigate(`/category/${category.title}`)} key={category.id} onPress={onClose}>
                                                 {category.title}
                                             </DropdownItem>
                                         ))}
@@ -53,19 +53,19 @@ export default function MenuDrawer({ isOpen, onOpenChange, categories }: DrawerP
                                 {/* SCOPRI ANCHE */}
 
                                 <p className="uppercase text-md mt-5 text-gray-500">Scopri anche</p>
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer">
+                                <p onClick={() => navigate('/ultime-ricette')} className="flex items-center gap-2 text-purple-900 cursor-pointer">
                                     <Clock />
                                     Ultime ricette
                                 </p>
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer">
+                                <p onClick={() => navigate('/ricette-popolari')} className="flex items-center gap-2 text-purple-900 cursor-pointer">
                                     <Star />
                                     Più popolari
                                 </p>
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer">
+                                <p onClick={() => navigate('/proteiche')} className="flex items-center gap-2 text-purple-900 cursor-pointer">
                                     <Cookie />
                                     Proteiche
                                 </p>
-                                <p className="flex items-center gap-2 text-purple-900 cursor-pointer">
+                                <p onClick={() => navigate('/piatti-unici')} className="flex items-center gap-2 text-purple-900 cursor-pointer">
                                     <Gem />
                                     Piatti unici
                                 </p>

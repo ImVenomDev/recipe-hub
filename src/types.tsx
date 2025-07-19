@@ -8,19 +8,29 @@ type Category = {
 };
 
 type Recipe = {
-    hashtags: any;
-    preparationTime: ReactNode;
-    total_ingredients: ReactNode;
-    createdAt: string | number | Date;
-    imageUrl: string | undefined;
     id: string;
     title: string;
     author: string;
     author_id: string;
     category: string;
-    time: string;
-    ingredients: number;
+    difficulty: number;
     rating: number;
+    glutenFree: boolean;
+    isProteic: boolean;
+    isUnique: boolean;
+    notes: string;
+    conservation: string;
+    hashtags: string[];
+    ingredients: Ingredient[];
+    steps: string[];
+    servings: number;
+    totalTime: ReactNode;
+    sleepTime: ReactNode;
+    risingTime: ReactNode;
+    preparationTime: string | (readonly string[] & string) | undefined;
+    total_ingredients: ReactNode;
+    createdAt: string | number | Date;
+    imageUrl: string | undefined;
 };
 
 type Props = {

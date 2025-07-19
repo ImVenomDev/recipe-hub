@@ -63,8 +63,8 @@ export default function RecipeEditModal({ isOpen, onClose, recipe, onSave }: Pro
               />
               <Input
                 label="Tempo di preparazione"
-                value={formData.time}
-                onChange={(e) => handleChange("time", e.target.value)}
+                value={formData.preparationTime}
+                onChange={(e) => handleChange("preparationTime", e.target.value)}
               />
               <Input
                 label="Immagine URL"

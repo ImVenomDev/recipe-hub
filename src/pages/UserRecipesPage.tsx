@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../firebase.config";
 import type { Recipe } from "../types";
-import { Card, CardBody, Spinner } from "@heroui/react";
+import { Card, CardBody, Skeleton } from "@heroui/react";
 import { Helmet } from "react-helmet-async";
 
 export default function UserRecipesPage() {
@@ -46,8 +46,10 @@ export default function UserRecipesPage() {
             <h1 className="text-2xl font-bold text-purple-700 mb-4">Le ricette di {user}</h1>
 
             {loading ? (
-                <div className="flex justify-center py-10">
-                    <Spinner label="Caricamento ricette..." />
+                <div className="flex flex-col gap-4 py-10">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton key={i} className="h-52 w-full rounded-md" />
+                    ))}
                 </div>
             ) : recipes.length === 0 ? (
                 <div className="text-center text-gray-500">Non hai ancora pubblicato ricette.</div>
@@ -63,6 +65,7 @@ export default function UserRecipesPage() {
                             <img
                                 src={recipe.imageUrl || "https://via.placeholder.com/400"}
                                 alt={recipe.title}
+                                loading="lazy"
                                 className="w-full h-52 object-cover"
                             />
                             <CardBody>

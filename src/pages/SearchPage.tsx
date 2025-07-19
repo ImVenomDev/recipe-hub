@@ -5,7 +5,8 @@ import { db } from "../../firebase.config";
 import type { Recipe } from "../types";
 import {
     Card, CardBody, CardFooter,
-    Button, Spinner, Chip, Select, SelectItem
+    Button, Chip, Select, SelectItem,
+    Skeleton
 } from "@heroui/react";
 import { Clock, Star } from "lucide-react";
 import { motion } from "framer-motion";
@@ -103,8 +104,10 @@ export default function SearchPage() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center py-10">
-                    <Spinner label="Caricamento ricette..." />
+                <div className="flex flex-col gap-4 py-10">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton key={i} className="h-52 w-full rounded-md" />
+                    ))}
                 </div>
             ) : recipes.length === 0 ? (
                 <div className="text-center text-gray-500 py-10">Nessun risultato trovato.</div>

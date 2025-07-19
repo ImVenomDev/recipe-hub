@@ -31,6 +31,10 @@ export default defineConfig({
             },
         },
     },
+    build: {
+        sourcemap: false,
+        chunkSizeWarningLimit: 500,
+    },
     resolve: {
         alias: {
             '@': '/src',
